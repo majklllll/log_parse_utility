@@ -67,6 +67,12 @@ class LogUtility:
             print(line, end="")
 
 
+def timestamp_argument(x):
+    if not re.search(pattern=r"\d\d:\d\d:\d\d", string=x):
+        raise RuntimeError("Timestamp in wrong format")
+    return x
+
+
 def positive_int_argument(x):
     if int(x) < 0:
         raise RuntimeError("Negative argument instead of positive integer.")
@@ -78,12 +84,13 @@ if __name__ == '__main__':
     parser.add_argument("file", help="File name of entry log file", nargs=1)
     parser.add_argument("-f", "--first", type=positive_int_argument, help="Print first NUM lines")
     parser.add_argument("-l", "--last", type=positive_int_argument, help="Print last NUM lines")
-    parser.add_argument("-t", "--timestamps", help="Print lines that contain a timestamp in HH:MM:SS format",
+    parser.add_argument("-t", "--timestamps", type=timestamp_argument,
+                        help="Print lines that contain a timestamp in HH:MM:SS format",
                         required=False, nargs='?', const=True)
     parser.add_argument("-i", "--ipv4", help="Print lines that contain an IPv4 address, matching IPs are highlighted",
                         type=lambda x: x if IPv4Address(x) else None, required=False, nargs='?', const=True)
     parser.add_argument("-I", "--ipv6",
-                        help="Print lines that contain an IPv6 address (standard notation), matching IPs are highlighted",
+                        help="Print lines that contain IPv6 address (standard notation), matching IPs are highlighted",
                         type=lambda x: x if IPv6Address(x) else None, required=False, nargs='?', const=True)
 
     args = vars(parser.parse_args())
