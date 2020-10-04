@@ -1,30 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""" A suite of tests for util.py utility example. """
-import mock
-import pytest
+""" A suite of tests for util.py utility. """
 import subprocess
-from argparse import ArgumentError
 
-from util import LogUtility
+import pytest
 
 PYTHON_INTERPRETER = "venv/Scripts/python"
 EXEC_STRING = PYTHON_INTERPRETER + " util.py test_sample.log"
 
-
+# list of pairs Tuple(arguments, expected lines from test_sample file)
 expected_behaviour = [
     ("-f 4", list(range(1, 5))),
     ("--first 4", list(range(1, 5))),
     ("-l 6", list(range(10, 16))),
     ("--timestamps", list(range(1, 16))),
-    ("--ipv4", list(range(1, 8)) + [10,11,12,14,15]),
-    ("--ipv6", [8,9,13]),
-    ("--ipv4 --last 50", list(range(1, 8)) + [10,11,12,14,15]),
+    ("--ipv4", list(range(1, 8)) + [10, 11, 12, 14, 15]),
+    ("--ipv6", [8, 9, 13]),
+    ("--ipv4 --last 50", list(range(1, 8)) + [10, 11, 12, 14, 15]),
     ("--last 50 --first 20", list(range(1, 16))),
     ("--last 10 --first 10", list(range(6, 11))),
     ("--ipv4 --ipv6", []),
-    ("--ipv4 66.249.73.135 ", [7,11,12]),
-    ("--ipv6 2001:0db8:85a3:0000:0000:8a2e:0370:7335", [9,13]),
+    ("--ipv4 66.249.73.135 ", [7, 11, 12]),
+    ("--ipv6 2001:0db8:85a3:0000:0000:8a2e:0370:7335", [9, 13]),
     ("--ipv6 2001:0db8:85a3:0000:0000:8a2e:0370:7334", [8]),
     ("--timestamps 21:05:19", [5]),
     ("--timestamps 21:05:20", []),
