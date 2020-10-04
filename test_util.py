@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""" A suite of tests for util.py utility example. """
+""" A suite of tests for util.py utility. """
 import subprocess
 
 import pytest
